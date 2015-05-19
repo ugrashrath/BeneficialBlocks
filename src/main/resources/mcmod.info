@@ -1,0 +1,16 @@
+[
+{
+  "modid": "beneficialblocks",
+  "name": "Beneficial Blocks",
+  "description": "A collection of various blocks and items that may benefit the player.",
+  "version": "1.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Ugrashrath"],
+  "credits": "Funwayguy for all the mod help",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
