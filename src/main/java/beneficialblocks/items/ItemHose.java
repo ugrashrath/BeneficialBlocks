@@ -1,11 +1,13 @@
 package beneficialblocks.items;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import beneficialblocks.help.CreativeTabBB;
 import beneficialblocks.help.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -13,12 +15,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemHose extends Item
@@ -26,16 +30,16 @@ public class ItemHose extends Item
 	
 	public ItemHose()
 	{	
-		setUnlocalizedName("hose");
+		setUnlocalizedName("bbHose");
 		setTextureName("beneficialblocks:hose");
 		setCreativeTab(CreativeTabBB.BB_TAB);
-		setMaxDamage(20);
+		setMaxDamage(10);
 		setMaxStackSize(1);
 	}
 	
 	
 	/**
-	 * add delay to prevent rapid use.
+	 * Using item damage to show cooldown left on hose.
 	 * 
 	 */
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld)
@@ -56,7 +60,8 @@ public class ItemHose extends Item
 	@Override
     public ItemStack onItemRightClick(ItemStack iStack, World world, EntityPlayer player)
     {
-		//built in item delay
+		
+		//built-in item delay
 		if(iStack.getItemDamage() > 0)
 		{
 			return iStack;
@@ -66,18 +71,23 @@ public class ItemHose extends Item
 			iStack.setItemDamage(this.getMaxDamage());
 		}
 		
+		//starting hose code
+		
     	MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
+    	
     	
         if (mop != null)
         {
            TileEntity tile = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
            Block block = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
            int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+           Entity en = mop.entityHit;
            
            Fluid fluid = FluidRegistry.lookupFluidForBlock(block);
            int amount = 1000;
            boolean isTank = false;
            
+           // pulls fluids from fluid tanks
            if(tile != null && tile instanceof IFluidTank)
            {
         	   isTank = true;
@@ -88,7 +98,7 @@ public class ItemHose extends Item
         		   fluid = fStack.getFluid();
         		   amount = fStack.amount;
         	   }
-           }
+           } // pull fluids from fluid handlers 
            else if(tile != null && tile instanceof IFluidHandler)
            {
         	   isTank = true;
@@ -103,6 +113,7 @@ public class ItemHose extends Item
            
            int fullAmount = amount;
            
+           // find places to put the liquids, tanks, drums, buckets, bottles, etc.
            if(fluid != null)
            {
         	   for(int i=0;i<player.inventory.getSizeInventory();i++)
@@ -116,6 +127,7 @@ public class ItemHose extends Item
         		   
         		   if(invoStack.getItem() == Items.bucket && meta == 0 && amount>= 1000)
         		   {
+        			   
         			   if(block == Blocks.water || block == Blocks.flowing_water)
         			   {
                 		   if(invoStack.stackSize <= 1)
@@ -123,7 +135,8 @@ public class ItemHose extends Item
                 			  player.inventory.setInventorySlotContents(i, new ItemStack(Items.water_bucket));
                 			  amount = 0;
                 			  break;
-                		   } else if (player.inventory.addItemStackToInventory(new ItemStack(Items.water_bucket)))
+                		   }
+                		   else if (player.inventory.addItemStackToInventory(new ItemStack(Items.water_bucket)))
                 		   {
                 			   invoStack.stackSize--;
                 			   player.inventory.setInventorySlotContents(i, invoStack);
@@ -138,7 +151,8 @@ public class ItemHose extends Item
                 			  player.inventory.setInventorySlotContents(i, new ItemStack(Items.lava_bucket));
                 			  amount = 0;
                 			  break;
-                		   } else if (player.inventory.addItemStackToInventory(new ItemStack(Items.lava_bucket)))
+                		   }
+                		   else if (player.inventory.addItemStackToInventory(new ItemStack(Items.lava_bucket)))
                 		   {
                 			   invoStack.stackSize--;
                 			   player.inventory.setInventorySlotContents(i, invoStack);
@@ -161,7 +175,7 @@ public class ItemHose extends Item
     				   player.inventory.setInventorySlotContents(i, invoStack);
     				   amount -= 250;
     			   }
-    		   }
+    		   } //prevent filling stacks of tanks
     		   else if(invoStack.getItem() instanceof IFluidContainerItem)
     		   {
     			   if(invoStack.stackSize > 1)
@@ -212,5 +226,45 @@ public class ItemHose extends Item
         }
          return iStack;
     }
+	
+//	EntityInteractEvent ev = new EntityInteractEvent(){}
+	
+	@SubscribeEvent
+	public void onEntityInteract(EntityInteractEvent event)
+	{
+	     ItemStack itemstack = event.entityPlayer.inventory.getCurrentItem();
+
+	     if(event.target instanceof EntityCow)
+	     {    
+		     if (itemstack.getItem() == Items.bucket)
+		     {
+		    	/* if (--itemstack.stackSize <= 0)
+			     {
+			    	 event.entityPlayer.inventory.setInventorySlotContents(event.entityPlayer.inventory.currentItem, new ItemStack(RecipeExpansionPack.bucketWoodMilk));
+			     }
+			     else if (!event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(RecipeExpansionPack.bucketWoodMilk)))
+			     {
+			    	 event.entityPlayer.dropPlayerItem(new ItemStack(Item.bucketMilk.itemID, 1, 0));
+			     }*/
+			    if(itemstack.stackSize <= 1)
+				{
+					event.entityPlayer.inventory.setInventorySlotContents(event.entityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
+				}
+				else if (event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.milk_bucket)))
+				{
+					itemstack.stackSize--;
+					event.entityPlayer.inventory.setInventorySlotContents(event.entityPlayer.inventory.currentItem, itemstack);
+				}
+		     }
+	     }
+	}
+	
+    /**
+     * Called when ctrl+right clicked to change Hose to reverse
+     */
+	public void changetoReverse()
+	{
+		
+	}
 	
 }

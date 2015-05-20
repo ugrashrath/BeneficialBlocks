@@ -1,2 +1,5 @@
-item.hose.name=Hose
+item.bbHose.name=Hose
+item.bbHoseReverse.name=Reverse Hose
+item.bbHoseEnd.name=Hose End
+item.bbHosePipe.name=Hose Pipe
 itemGroup.bbTab=Beneficial Blocks
