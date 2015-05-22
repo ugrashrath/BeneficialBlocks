@@ -1,13 +1,10 @@
 package beneficialblocks;
 
-import beneficialblocks.help.MyEventHandler;
-import beneficialblocks.help.Reference;
-import beneficialblocks.help.RegisterHelper;
-import beneficialblocks.items.ItemHose;
-import beneficialblocks.items.ItemHoseEnd;
-import beneficialblocks.items.ItemHosePipe;
-import beneficialblocks.items.ItemHoseReverse;
-import beneficialblocks.items.Recipies;
+import beneficialblocks.crafting.Recipies;
+import beneficialblocks.handler.EntityEventHandler;
+import beneficialblocks.integration.MFRItems;
+import beneficialblocks.setup.ModItems;
+import beneficialblocks.setup.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -21,40 +18,36 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid=Reference.MODID, version=Reference.VERSION)
+@Mod(modid=Reference.MODID, name=Reference.NAME, version=Reference.VERSION, dependencies=Reference.DEPENDENCIES)
 public class BeneficialBlocks
 {
 	
-	//blocks
-	
-	//materials
-	public static Item hoseEnd;
-	public static Item hosePipe;
-	
-	//tools
-	public static Item hose;
-	public static Item hoseReverse;
-	
-	MyEventHandler handler = new MyEventHandler();	
+	EntityEventHandler handler = new EntityEventHandler();	
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		hose = new ItemHose();
-		RegisterHelper.RegisterItem(hose);
 		
-		hoseReverse = new ItemHoseReverse();
-		RegisterHelper.RegisterItem(hoseReverse);
+		ModItems.registerBlocks();
 		
-		hoseEnd = new ItemHoseEnd();
-		RegisterHelper.RegisterItem(hoseEnd);
-		
-		hosePipe = new ItemHosePipe();
-		RegisterHelper.RegisterItem(hosePipe);
-		
+		Recipies.makeMaterials();
 		Recipies.makeItems();
 		
+		//Attempts as cross-mod integration
+		// process is less than hoped for
+		MFRItems.init();
+		
 		MinecraftForge.EVENT_BUS.register(handler);
+		
+	}
+	
+	public void Init()
+	{
+		
+	}
+	
+	public void postInit()
+	{
 		
 	}
 	
