@@ -1,6 +1,6 @@
 package beneficialblocks.items;
 
-import beneficialblocks.help.CreativeTabBB;
+import beneficialblocks.setup.CreativeTabBB;
 import net.minecraft.item.Item;
 
 public class ItemHoseEnd extends Item
