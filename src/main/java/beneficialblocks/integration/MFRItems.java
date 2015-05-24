@@ -1,5 +1,6 @@
 package beneficialblocks.integration;
 
+import beneficialblocks.BeneficialBlocks;
 import beneficialblocks.integration.ModLoader;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,19 +18,20 @@ public class MFRItems
 	public static void init()
 	{
 		
-		if(Loader.isModLoaded("MineFactoryReloaded"))
+		if(ModLoader.MFR.isLoaded())
 		{
-			FMLLog.info("BB: MFR is available");
+			BeneficialBlocks.bbLog.info("MFR is available");
 			
 			try {
-				mushroomsoupBucket = GameRegistry.findItemStack("MineFactoryReloaded", "bucket.mushroomsoup", 1).getItem();
-				milkBottle = GameRegistry.findItemStack("MinefactoryReloaded", "milkbottle", 1).getItem();
-				milk = GameRegistry.findBlock("MineFactoryReloaded", "milk.still");
-				FMLLog.info("BB: " + milk.toString());
+				mushroomsoupBucket 	= GameRegistry.findItemStack("MineFactoryReloaded", "bucket.mushroomsoup", 1).getItem();
+				milkBottle 			= GameRegistry.findItemStack("MineFactoryReloaded", "milkbottle", 1).getItem();
+				//milk = GameRegistry.findBlock("MineFactoryReloaded", "milk.still");
+				//BeneficialBlocks.bbLog.info("BB: " + milk.toString());
+				BeneficialBlocks.bbLog.info("MFR items loaded.");
 			}
 			catch(NullPointerException e)
 			{
-				FMLLog.info("BB: One of the items didn't load correctly");
+				BeneficialBlocks.bbLog.info("Error: MFR items didn't load correctly.");
 			}
 
 		}
