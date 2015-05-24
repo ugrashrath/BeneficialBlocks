@@ -5,10 +5,10 @@ import cpw.mods.fml.common.Loader;
 
 public enum ModLoader
 {
-	BENEFICIAL_BLOCKS(Reference.MODID, ""),
-	THERMAL_EXPANSION("ThermalExpansion", ".te"),
-	MINEFACTORY_RELOADED("MineFactoryReloaded", ".mfr"),
-	ENDER_IO("EnderIO", ".eio");
+	BB(Reference.MODID, ""),
+	TE("ThermalExpansion", ".te"),
+	MFR("MineFactoryReloaded", ".mfr"),
+	EIO("EnderIO", ".eio");
 	
 	public final String modid;
 	public final String suffix;
