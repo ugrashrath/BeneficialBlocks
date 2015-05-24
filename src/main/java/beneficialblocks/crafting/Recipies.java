@@ -17,7 +17,7 @@ public class Recipies
 			" I ", 
 			"IPI", 
 			" S ", 
-			'I', Items.gold_nugget, 'P', Items.ender_pearl, 'S', Items.slime_ball 
+			'I', Items.gold_ingot, 'P', Items.ender_pearl, 'S', Items.lead 
 		});
 		
 		GameRegistry.addRecipe(new ItemStack(ModItems.hosePipe), new Object[]
@@ -25,7 +25,7 @@ public class Recipies
 			"SLS", 
 			"LBL", 
 			"SLS", 
-			'S', Items.string, 'L', Items.leather, 'B', Items.slime_ball 
+			'S', Blocks.wool, 'L', Items.leather, 'B', Items.slime_ball 
 		});
 	}
 
@@ -35,9 +35,9 @@ public class Recipies
 		GameRegistry.addRecipe(new ItemStack(ModItems.hose), new Object[]
 		{
 			" RE", 
-			" P ", 
+			"SPS", 
 			"ER ",
-			'R', Items.redstone, 'E', ModItems.hoseEnd, 'P', ModItems.hosePipe
+			'R', Items.redstone, 'E', ModItems.hoseEnd, 'P', ModItems.hosePipe, 'S', Items.string
 		});
 		
 		GameRegistry.addRecipe(new ItemStack(ModItems.bloodyShears), new Object[]
