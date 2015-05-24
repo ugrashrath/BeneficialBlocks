@@ -1,5 +1,7 @@
 package beneficialblocks;
 
+import org.apache.logging.log4j.Logger;
+
 import beneficialblocks.crafting.Recipies;
 import beneficialblocks.handler.EntityEventHandler;
 import beneficialblocks.integration.MFRItems;
@@ -7,6 +9,8 @@ import beneficialblocks.setup.ModItems;
 import beneficialblocks.setup.Reference;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityCow;
@@ -22,33 +26,43 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BeneficialBlocks
 {
 	
+	public static Logger bbLog;
 	EntityEventHandler handler = new EntityEventHandler();	
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		bbLog = event.getModLog();
+		
+		bbLog.info("Beneficial Blocks starting to load.");
 		
 		ModItems.registerBlocks();
 		
 		Recipies.makeMaterials();
 		Recipies.makeItems();
 		
-		//Attempts as cross-mod integration
-		// process is less than hoped for
-		MFRItems.init();
+
+		
 		
 		MinecraftForge.EVENT_BUS.register(handler);
 		
 	}
 	
-	public void Init()
+	@EventHandler
+	public void Init(FMLInitializationEvent event)
 	{
+		//bbLog.info("Beneficial Blocks initial loading.");
 		
 	}
 	
-	public void postInit()
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
 	{
+		//Attempts as cross-mod integration
+		// process is less than hoped for
+		MFRItems.init();
 		
+		bbLog.info("Beneficial Blocks done loading.");
 	}
 	
 }
