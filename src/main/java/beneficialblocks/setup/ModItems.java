@@ -3,10 +3,12 @@ package beneficialblocks.setup;
 import net.minecraft.item.Item;
 import beneficialblocks.setup.RegisterHelper;
 import beneficialblocks.items.ItemBloodyShears;
+import beneficialblocks.items.ItemGelidProiectum;
 import beneficialblocks.items.ItemHose;
 import beneficialblocks.items.ItemHoseEnd;
 import beneficialblocks.items.ItemHosePipe;
 import beneficialblocks.items.ItemHoseReverse;
+import beneficialblocks.items.ItemIgnisProiectum;
 
 public class ModItems
 {
@@ -18,6 +20,8 @@ public class ModItems
 	public static Item hose;
 	public static Item hoseReverse;
 	public static Item bloodyShears;
+	public static Item gelidProiectum;
+	public static Item ignisProiectum;
 	
 	public static void registerBlocks()
 	{
@@ -35,5 +39,12 @@ public class ModItems
 		
 		bloodyShears = new ItemBloodyShears();
 		RegisterHelper.RegisterItem(bloodyShears);
+		
+		gelidProiectum = new ItemGelidProiectum();
+		RegisterHelper.RegisterItem(gelidProiectum);
+		
+		ignisProiectum = new ItemIgnisProiectum();
+		RegisterHelper.RegisterItem(ignisProiectum);
+		
 	}
 }
