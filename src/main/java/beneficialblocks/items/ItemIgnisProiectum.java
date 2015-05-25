@@ -11,9 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import beneficialblocks.BeneficialBlocks;
 import beneficialblocks.setup.CreativeTabBB;
 
 public class ItemIgnisProiectum extends Item
@@ -100,6 +102,15 @@ public class ItemIgnisProiectum extends Item
             	ItemStack invoStack = player.inventory.getStackInSlot(index);
             	MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, player, true);
             	
+            	BeneficialBlocks.bbLog.info("Rotation Yaw: " + player.rotationYaw);
+            	BeneficialBlocks.bbLog.info("Rotation Pitch: " + player.rotationPitch);
+            	
+            	if(mop == null)
+            	{
+            		BeneficialBlocks.bbLog.info("mop is null");
+            		return iStack;
+            	}
+            	
             	if(invoStack.getItem() instanceof IFluidContainerItem)
             	{
             		if(invoStack.stackSize > 1)
@@ -119,13 +130,15 @@ public class ItemIgnisProiectum extends Item
             		double motionX = (double)(-MathHelper.sin(player.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(player.rotationPitch / 180.0F * (float)Math.PI) * 0.4F);
             		double motionZ = (double)(MathHelper.cos(player.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(player.rotationPitch / 180.0F * (float)Math.PI) * 0.4F);
             		double motionY = (double)(-MathHelper.sin((player.rotationPitch + 0.0F) / 180.0F * (float)Math.PI) * 0.4F);
-            		player.posY += 2;
+            		ForgeDirection dirOff = ForgeDirection.getOrientation(mop.sideHit);
+            		
+            		BeneficialBlocks.bbLog.info("Motion X: " + motionX + ", Motion Y: " + motionY + ", motionZ: " + motionZ);
             		
             		if(!world.isRemote)
             		{
-            			world.spawnEntityInWorld(new EntitySmallFireball(world, player, motionX, motionY, motionZ));
+            			world.spawnEntityInWorld(new EntitySmallFireball(world, player.posX+dirOff.offsetX, player.posY+1+dirOff.offsetY, player.posZ+dirOff.offsetY, motionX, motionY, motionZ));
             		}
-            		//player.posX, player.posY+2, player.posZ
+            		//
         			
         			//world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(Items.fire_charge)));
             	}
