@@ -2,6 +2,8 @@ package beneficialblocks.setup;
 
 import net.minecraft.item.Item;
 import beneficialblocks.setup.RegisterHelper;
+import beneficialblocks.blocks.BlockGlowingLeaves;
+import beneficialblocks.blocks.BlockHopperChest;
 import beneficialblocks.items.ItemBloodyShears;
 import beneficialblocks.items.ItemGelidProiectum;
 import beneficialblocks.items.ItemHose;
@@ -16,6 +18,10 @@ public class ModItems
 	public static Item hoseEnd;
 	public static Item hosePipe;
 	
+	//blocks
+	public static BlockHopperChest hopperChest;
+	public static BlockGlowingLeaves glowingLeaves;
+	
 	//tools
 	public static Item hose;
 	public static Item hoseReverse;
@@ -24,6 +30,17 @@ public class ModItems
 	public static Item ignisProiectum;
 	
 	public static void registerBlocks()
+	{
+		hopperChest = new BlockHopperChest();
+		RegisterHelper.registerBlock(hopperChest);
+		
+		glowingLeaves = new BlockGlowingLeaves();
+		RegisterHelper.registerBlock(glowingLeaves);
+		
+		
+	}
+	
+	public static void registerItems()
 	{
 		hose = new ItemHose();
 		RegisterHelper.RegisterItem(hose);
@@ -45,6 +62,5 @@ public class ModItems
 		
 		ignisProiectum = new ItemIgnisProiectum();
 		RegisterHelper.RegisterItem(ignisProiectum);
-		
 	}
 }
