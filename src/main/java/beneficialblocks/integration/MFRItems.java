@@ -25,7 +25,7 @@ public class MFRItems
 			try {
 				mushroomsoupBucket 	= GameRegistry.findItemStack("MineFactoryReloaded", "bucket.mushroomsoup", 1).getItem();
 				milkBottle 			= GameRegistry.findItemStack("MineFactoryReloaded", "milkbottle", 1).getItem();
-				//milk = GameRegistry.findBlock("MineFactoryReloaded", "milk.still");
+				milk 				= GameRegistry.findBlock("MineFactoryReloaded", "milk.still");
 				//BeneficialBlocks.bbLog.info("BB: " + milk.toString());
 				BeneficialBlocks.bbLog.info("MFR items loaded.");
 			}
