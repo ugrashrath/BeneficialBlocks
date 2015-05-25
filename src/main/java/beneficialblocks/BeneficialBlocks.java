@@ -37,13 +37,12 @@ public class BeneficialBlocks
 		bbLog.info("Beneficial Blocks starting to load.");
 		
 		ModItems.registerBlocks();
+		ModItems.registerItems();
 		
 		Recipies.makeMaterials();
+		Recipies.makeBlocks();
 		Recipies.makeItems();
-		
 
-		
-		
 		MinecraftForge.EVENT_BUS.register(handler);
 		
 	}
