@@ -12,7 +12,7 @@ public class CreativeTabBB
 		@Override
 		public Item getTabIconItem()
 		{
-			return Items.written_book;
+			return ModItems.hose;
 		}
 	};
 	
