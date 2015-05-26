@@ -1,11 +1,13 @@
 package beneficialblocks.blocks;
 
+import beneficialblocks.entity.TileEntityHopperChest;
 import beneficialblocks.setup.CreativeTabBB;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -68,8 +70,8 @@ public class BlockHopperChest extends BlockContainer
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		// TODO Auto-generated method stub
-		return null;
+        TileEntityHopperChest teChest = new TileEntityHopperChest();
+        return teChest;
 	}
 
 }
