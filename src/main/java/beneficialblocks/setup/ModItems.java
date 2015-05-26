@@ -1,9 +1,11 @@
 package beneficialblocks.setup;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import beneficialblocks.setup.RegisterHelper;
 import beneficialblocks.blocks.BlockGlowingLeaves;
 import beneficialblocks.blocks.BlockHopperChest;
+import beneficialblocks.entity.TileEntityHopperChest;
 import beneficialblocks.items.ItemBloodyShears;
 import beneficialblocks.items.ItemGelidProiectum;
 import beneficialblocks.items.ItemHose;
@@ -37,7 +39,7 @@ public class ModItems
 		glowingLeaves = new BlockGlowingLeaves();
 		RegisterHelper.registerBlock(glowingLeaves);
 		
-		
+		GameRegistry.registerTileEntity(TileEntityHopperChest.class, Reference.MODID);
 	}
 	
 	public static void registerItems()
